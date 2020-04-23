@@ -15,3 +15,21 @@ estar c vinculado con el arámetro el:{} , así se coloca varias clases
 ['p-3','text-white']
 ['p-3','text-white',fondo] aqui la palabra fondo es una variable que se jala del data d js.
 :class="{'bg-info': !color, 'bg-warning': color}"> Puedes crear condiciones si agregar {}
+
+CLASE 5 PRACTICA CRUD
+Agregar
+this.personas.push({
+            nombre:this.persona,estado:this.estado
+          })
+primero seleccionamos en donde queremos adherir con push, luego que le vamos adherir en esta¿e caso se ashire nombre y estado
+
+Editar
+ cambiarColor(parametro1){
+         console.log('editar',parametro1)   // console.log('editar',parametro1) se pasa una pañlbra estática y un parametro enviado
+        this.personas[parametro1].estado= true  ese pa´ramero viene a ser el index, que se paso de la viw.
+        },
+
+Eliminar
+eliminarDiv(parametro1){
+        this.personas.splice(parametro1,1)  // se indica que solo detecta el index y luego lo elimina solo 1 
+      }

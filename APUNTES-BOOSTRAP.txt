@@ -1,0 +1,13 @@
+1. d-flex  alinear como el flextbox
+1.1 ustify-content-between justificas el contenido los div lo coloca a cada extremo
+1.2 align-items-stretch Alineas los div
+Eejmplo
+<div class="d-flex justify-content-between"> <!--Clase de flext box content-betwee(justificar contenido le pone extremo a cada uno y align-items-stretch( para alinear los divs) ) -->
+                        <div> 
+                         {{index}} -  {{persona.nombre}}
+                        </div>
+                        <div>   
+                         <button class="btn btn-success btn-sm">OK</button> tomar en cuenta que el btn-sm que se coloca para alinear
+                         <button class="btn btn-danger btn-sm">X</button> 
+                        </div>    
+                    </div> 
