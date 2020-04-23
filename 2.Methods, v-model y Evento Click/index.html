@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="prueba1">
+        <label>Agregar nombre una fruta</label>
+        <input type="text" @keyup.enter="AgregarFruta" v-model='nuevafruta' >
+        </br>
+         <label>Agregar cantidad de fruta</label>
+        <input type="number" v-model.number='cantidadfruta' @keyup.enter='AgregarFruta'>
+        <button @click='AgregarFruta'>Agregar</button>
+        <ul >
+            <li v-for='fruta of frutas'>
+            <input v-model.number='fruta.cantidad'>
+            {{fruta.nombre}}
+            <button @click='fruta.cantidad++'>+</button>
+            <span v-if='fruta.cantidad === 0'>Sin stock</span>
+            </li>
+        </ul> 
+        <h4>TOTAL S/.{{SumarFrutas}}</h4>  <!-- como retorna un valor se le puede colocar directo aqui-->
+    </div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+<script src="prueba.js"></script>   
+</body>
+</html>

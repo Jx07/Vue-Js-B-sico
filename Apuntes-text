@@ -1,1 +1,12 @@
-t
+basic clase 2 y 3 
+ el: hace referencia al id o class que se hará el llamado
+ data: se coloca todo el dato que se desea mostrar
+ methods: Se crea funcnión y se relaciona con el @click
+computed: Se creea función y se realiza la funcipon sin ser llamada de manera computada.
+ v-if='fruta.cantidad'  Una condición
+ v-for='fruta of frutas' Recorrer un arreglo
+ v-model='nuevafruta' para poder capturar un input en Vue.Js
+ v-model.number se puede cambiar a numérico
+ @keyup.enter="AgregarFruta" Podemos agregar una función con el enter
+ @click='fruta.cantidad++' Se puede Agregar un función directa con Js puro
+ basic clase 4
