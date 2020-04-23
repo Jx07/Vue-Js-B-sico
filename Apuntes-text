@@ -10,3 +10,8 @@ computed: Se creea función y se realiza la funcipon sin ser llamada de manera c
  @keyup.enter="AgregarFruta" Podemos agregar una función con el enter
  @click='fruta.cantidad++' Se puede Agregar un función directa con Js puro
  basic clase 4
+:class="'p-3'" Colocar una clase con con Vue, tomar en cuenta que ya debería 
+estar c vinculado con el arámetro el:{} , así se coloca varias clases 
+['p-3','text-white']
+['p-3','text-white',fondo] aqui la palabra fondo es una variable que se jala del data d js.
+:class="{'bg-info': !color, 'bg-warning': color}"> Puedes crear condiciones si agregar {}

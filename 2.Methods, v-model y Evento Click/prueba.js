@@ -24,7 +24,7 @@ const prueba = new Vue({
      SumarFrutas(){
       this.total =0;
       for(fruta of this.frutas){
-        this.total=this.total + fruta.cantidad;
+        this.total=this.total+fruta.cantidad
       }
       return this.total;
      }
