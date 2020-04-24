@@ -33,3 +33,15 @@ Eliminar
 eliminarDiv(parametro1){
         this.personas.splice(parametro1,1)  // se indica que solo detecta el index y luego lo elimina solo 1 
       }
+clase 5
+Java script puro 
+//split('') = separa un arreglo por letras
+reverse('') = coloca en reversa pero sigue siendo un arreglo deletras
+join('') = converite de arreglo a string
+cambiarColor(){
+          return{
+            'bg-primary': this.contador<=10,  //REEMPLAZA AL IF
+            'bg-success': this.contador>10 && this.contador<=20,
+            'bg-warning':this.contador>20
+          }
+:style="{'width': contador+'%'}"  en html llamar a Vue y a la data y lo concatenas
