@@ -11,3 +11,79 @@ Eejmplo
                          <button class="btn btn-danger btn-sm">X</button> 
                         </div>    
                     </div> 
+clase 7 video 9
+Realizar comunicacion entre componentes de  padre e hijo:
+Aqui tenemos al padre como si fuera un x componente pero dentro del div se ha colocado un
+hijo, a la vez le está pasando un valor llamador contador utilizando el v-bind (:)
+Vue.component('padre',{
+    template:
+    `
+        <div class='mt-4 p-5 bg-warning '>
+            <p>Soy el Padre, contador:{{contador}}</p>
+            <button @click='contador++'>+</button>
+            <hijo :asignado='contador'></hijo>
+        </div>
+    
+    `,
+    data(){
+        return{
+            contador:0
+        }
+    }
+})
+
+Vue.component('hijo',{
+    template:
+    `
+        <div class='p-5 bg-danger'>
+            <p>{{hijo}} : {{asignado}}</p>
+        </div>
+    `,
+    data(){
+        return{
+
+            hijo:'Soy el hijo'
+        }
+    },
+    props:['asignado']  // con este método recibe lo que se mando por la directiva})
+
+    clase video 10
+    Realizar comunicacion entre componentes de  hijo e padre:
+    Vue.component('hijo',{
+    template:
+    `
+        <div class='p-5 bg-danger'>
+            <p>{{hijo}} : {{asignado}}</p>
+        </div>
+    `,
+    data(){
+        return{
+
+            hijo:'Soy el hijo'
+        }
+    },
+    props:['asignado'],
+    mounted(){
+        this.$emit('asignacionHijo',this.hijo)  Primero se envía mediante el evento mounted
+
+    }
+})
+
+Vue.component('padre',{
+    template:
+    `
+        <div class='mt-4 p-5 bg-warning '>
+            <p>Soy el Padre, contador:{{contador}}</p>
+            <button @click='contador++'>+</button>
+            {{asignacionPadre}}
+            <hijo :asignado='contador' @asignacionHijo='asignacionPadre= $event'></hijo>
+        </div>     Se recibe con el mismo nombbre incluir arroba y se acrea una variable para que se alamacen el dato del hijo
+    
+    `,
+    data(){
+        return{
+            contador:0,
+            asignacionPadre:''
+        }
+    }
+})

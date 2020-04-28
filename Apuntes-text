@@ -45,3 +45,21 @@ cambiarColor(){
             'bg-warning':this.contador>20
           }
 :style="{'width': contador+'%'}"  en html llamar a Vue y a la data y lo concatenas
+clase 6 - video 8 
+Tomar en cuenta que al crear un componente se coloca encima de la instancia.
+Vue.component('cabecera',{  cabecera vendría ser el nombre de la etiqueta html
+    template: 
+    `        se uitiliza este signo para acoplar varios bloques de html en varias lineas,
+             tomar en cuenta que siempre se cierra con un div.
+    <div>
+  
+    </div>
+    `,
+    data(){     el data de complement susplanta al de la instancia pero aqui se toma como una funcion
+        return{
+            saludo:'Logo',
+            menus:['Nosotros','Servicios','Proyectos','Contactecnos']
+        }
+        
+    }
+})  
