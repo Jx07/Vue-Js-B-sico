@@ -62,4 +62,350 @@ Vue.component('cabecera',{  cabecera vendría ser el nombre de la etiqueta html
         }
         
     }
+})
+clase 7 video 9
+Realizar comunicacion entre componentes de  padre e hijo:
+Aqui tenemos al padre como si fuera un x componente pero dentro del div se ha colocado un
+hijo, a la vez le está pasando un valor llamador contador utilizando el v-bind (:)
+Vue.component('padre',{
+    template:
+    `
+        <div class='mt-4 p-5 bg-warning '>
+            <p>Soy el Padre, contador:{{contador}}</p>
+            <button @click='contador++'>+</button>
+            <hijo :asignado='contador'></hijo>
+        </div>
+    
+    `,
+    data(){
+        return{
+            contador:0
+        }
+    }
+})
+
+Vue.component('hijo',{
+    template:
+    `
+        <div class='p-5 bg-danger'>
+            <p>{{hijo}} : {{asignado}}</p>
+        </div>
+    `,
+    data(){
+        return{
+
+            hijo:'Soy el hijo'
+        }
+    },
+    props:['asignado']  // con este método recibe lo que se mando por la directiva})
+
+    clase video 10
+    Realizar comunicacion entre componentes de  hijo e padre:
+    Vue.component('hijo',{
+    template:
+    `
+        <div class='p-5 bg-danger'>
+            <p>{{hijo}} : {{asignado}}</p>
+        </div>
+    `,
+    data(){
+        return{
+
+            hijo:'Soy el hijo'
+        }
+    },
+    props:['asignado'],
+    mounted(){
+        this.$emit('asignacionHijo',this.hijo)  Primero se envía mediante el evento mounted
+
+    }
+})
+
+Vue.component('padre',{
+    template:
+    `
+        <div class='mt-4 p-5 bg-warning '>
+            <p>Soy el Padre, contador:{{contador}}</p>
+            <button @click='contador++'>+</button>
+            {{asignacionPadre}}
+            <hijo :asignado='contador' @asignacionHijo='asignacionPadre= $event'></hijo>
+        </div>     Se recibe con el mismo nombbre incluir arroba y se acrea una variable para que se alamacen el dato del hijo
+    
+    `,
+    data(){
+        return{
+            contador:0,
+            asignacionPadre:''
+        }
+    }
 })  
+
+Clae 8 Vuex video 11
+
+const tienda= new Vuex.Store({ se crea la instancia siempre .Store
+    state:{
+        numero:10 se convierte en una data global que lo utulizan componentes padres e hijos
+    },
+    mutations:{   Son metodos utilizados tanto por el padre o hijo
+        contador(state){
+            state.numero ++;
+        }
+    }
+    
+})
+clase 9 video 12 mapear data
+computed:{
+        ...Vuex.mapState(['numero'])  ya que el mapeo se trae un objeto se realiza con los ... destrtucturarlo y mandarlo como un arreglo
+    }
+clase 10 video 13 Mapear eventos
+En Vuex tendremos dentro de mutation dos funciones
+mutations:{
+        contador(state){
+            state.numero ++;
+        },
+        disminuir(state, numero){  
+            state.numero -= numero;
+        }
+    }
+Para mapearlo solo necesitamos colocar en cada copomente:
+methods:{
+       ...Vuex.mapMutations(['contador','disminuir']) y mapeamos todo lo que tenemos en mutation
+        
+    }
+ 
+ Tambien puedes pasar un parametro a la funcion de mapMutations
+ mutations:{
+        
+        disminuir(state, numero){    // se está agregando un paramtro parea poder restarle esa cantidad
+            state.numero -= numero;
+
+        }
+    }
+en el componente donde tenemos los botones que realiza los eventos
+ Vue.component('hijo',{
+    template:
+    `
+        <div>
+            <button @click='contador'>+</button>
+            <button @click='disminuir(2)'>-</button> // aqui es donde colocamos el paámetro
+            <p>Numero {{numero}}</p>
+        </div>
+    `,   
+clase 11 video 14 Actions
+actions:{
+        obtenerCursos: async function({commit}){   Basicamente aqui traemos data de un .json
+            const data = await fetch('archivo.json')  se utuliza el async await.
+            const cursos= await data.json();
+            commit('listarCursos', cursos)   se utiliza commit para ahcer referencia a la mutation
+        }
+    }
+Luego pasamos al mutation para poder interactuarlo con el actions
+listarCursos(state,parametro1){
+            state.cursos= parametro1
+        }
+ computed:{
+        ...Vuex.mapState(['numero','cursos'])
+    },
+    methods:{
+       ...Vuex.mapMutations(['contador','disminuir']),
+       ...Vuex.mapActions(['obtenerCursos'])   se realiza el mapeo
+        
+    }
+
+Clase 12 vueCli - secion 5 Udemy
+Para crear una data nos vamos a Vuex
+state: {
+    frutas:[
+      {id:1, nombre:'pera', precio:4},
+      {id:2, nombre:'mango', precio:7},
+      {id:3, nombre:'platano', precio:9},
+      {id:4, nombre:'manzana', precio:2}
+    ]
+Luegos nos vamos al componente y lo primero es importarlo 
+import {mapState, mapMutations} from 'vuex';  aqui se importan state,mutation,action
+
+Luego se coloca dentro de computed porque es un lógica de data
+computed:{
+        ...mapState(['frutas']),  aqui se mapea siempre dentro de un arreglo
+        frutaOrdenada(){
+            var mi = this;
+            return mi.frutas.sort((a , b) => b.precio - a.precio)
+        }
+    },
+Luego se muestra dentro del template
+<ul class="list-group">
+            <li v-for='(fruta,index) of frutaOrdenada' :key='fruta.id' @click='aumentar(index)'
+            class="list-group-item d-flex justify-content-between align-items-center" >
+         {{index}}   -    {{fruta.nombre}}
+                <span class="badge badge-primary badge-pill">{{fruta.precio}}</span>
+            </li>
+            
+        </ul>
+        tomar en cuenta que siempre será necesario colocar el :key porque es el identificador
+
+Es el mismo procedimiento con la mutaciones.
+ mutations: {
+    aumentar(state,id){  siempre se coloca el state
+      state.frutas[id].precio ++
+  
+    },
+    reiniciar(state){
+       state.frutas.forEach(fruta =>{   recorreo primero uno por uno y lo reinicia
+       fruta.precio=0
+     })
+    }
+  },
+  en el compoenente se importa
+  import {mapState, mapMutations} from 'vuex';
+  Luego se utiliza dentro del methodo
+   methods:{
+        ...mapMutations(['aumentar','reiniciar'])
+    }
+
+    y se muestra en el template
+    @click='reiniciar'
+
+
+clase de 12.2 Vue UI con router
+    
+
+    Lo primero es identificar el router
+path: '/about',   / aqui se coloca la ruta
+    name: 'About',    el nombre del componente
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "About" */ '../views/About.vue') aqui se importa una vista
+  },
+
+  La vista que se importa es de esto:
+  <template>
+<div>
+    <ul>
+        <li>Redes</li>
+        <li>Desarrollo</li>
+        <li>Gestion de Proyectos</li>
+    </ul>
+</div>
+</template>
+
+Por ultimo se muestra en el componente padre
+<template>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/servicios">Servicios</router-link>
+    </div>
+    <router-view/>   aqui se llama a los componentes hijos
+  </div>
+</template>
+
+Hay posibilidad de colocar parametro en la ruta cuando por ejemplo
+entramos dentro de cada servicio o cada foto o alguni identificador
+
+Primero en la ruta
+{
+    path:'/fotos/:id',  con los (:) se llama a una variable que sería el identificador
+    name:'fotos',
+    component: () => import(/* webpackChunkName: "fotos" */ '../views/Fotos.vue')
+  }
+  Tambien se importa a una vista y en esta vista se visualiza esto
+  <template>   es una seccion de template usual 
+    <div> 
+        <p>Galería de fotografía</p>
+        <Foto></Foto>
+    </div>
+</template>    
+
+
+<script>  Aqui está importando un componente  que vendría ser las fotos individuales
+import Foto from "@/components/Fotografia.vue";  si colocas el @ te mando a la carpeta src
+export default {
+    name:'Fotos',  //colocamos el nombre del coponente
+    components:{
+        Foto    //colocamo el nombre del componete que estamos importando
+    }
+}
+</script>
+Si vemos la ruta del componente que se importa  es esta:
+<template>
+    <div>
+        <p>Fotografía desde el componente: {{$route.params.id}}</p> aqui llamaos al parámetro id que se colocó en route
+    </div>
+</template>
+
+<script>
+export default {   básicamente solo se identifica el componente para luego llamarlo
+    name:'Foto'
+}
+</script>
+
+clase 12.2.1
+Podemos ver que las rutas Dinámicas y los eventos click video 27.
+Escogemos una vista que colocaremos un arreglo
+import Foto from "@/components/Fotografia.vue";
+export default {
+    name:'Fotos',
+    components:{
+        Foto
+    },
+    data(){  // lo reralizamos en data 
+        return{
+            fotos:[1,2,3]
+        }
+    },
+
+    En la misma vista:
+     <div v-for='(foto,index) of fotos' :key='index'>  Se recorre la data
+
+     Ahora lo que queremos por cada boton selecionado mande a una ruta 
+     <router-link :to="{ name: 'fotos', params: {id:foto}}">
+        <button>Foto: {{foto}}</button>
+        </router-link>
+    Utilizamos el router-link :to donde llamamos a un objeto y colocamos el nombre de la rutay
+    e igualamosa al nombre de parámetro que esta en router y lo igualamos ala variable llamada.
+
+    Por otro lado Podemos con un boton mandarnos a una ruta 
+    <button @click='home'>Home</button>  el click para llamar al evento
+      methods:{
+        home(){
+            this.$router.push('/')  con este nos mandamos a la ruta deseada
+        },
+
+        Hay método para  seguir como un historíal
+        methods:{
+        home(){
+            this.$router.push('/')
+        },
+        Anterior(){
+            this.$router.go(-1)   con el .go -1  nos manda a la página anterior
+        },
+        Posterior(){
+            this.$router.go(1)  con el .go 1  nos manda a la página posterior
+        }
+    }
+}
+
+Trabajar Vue con Bostrapp
+Cuando se realice un menu se puede aplicar la rutas por Vue
+<b-nav-item :to="{name:'Home'}" except>Home</b-nav-item> tal cual4
+Se puede definir los grid
+<b-col lg='6' md='6' cols='12'>
+<b-col lg='6' md='6' cols='12'>
+  para pequeño (cols )es de 6 equivale al 100%.
+  Para mediano (md) equivale al 50 %.
+  Para grande (lg) lg='6'
+
+<b-button variant='danger' href='/'> Rojo</b-button> Se cambia de color botones con el variant 
+y dentro ya se puede incluir directo el href
+
+Para los formularios Input
+ <b-form-input type="text" v-model='nuevo' :state='limitar' placeholder="Enter your name"></b-form-input>
+ Se haagregado el vmodel y el state se pone verde si es valido sino rojo esta llamando a un compute
+
+ computed:{
+        limitar(){
+        return  this.nuevo.length > 2 ? true : false // esta logica se llama .
+        }
+    }
